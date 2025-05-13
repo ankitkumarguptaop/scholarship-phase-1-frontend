@@ -1,0 +1,26 @@
+.profile {
+  width: auto;
+  height: 48px;
+  gap: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileName {
+  font-family: Open Sans;
+  font-weight: 400;
+  font-size: 14px !important;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: #ffffff;
+}
+
+.heading {
+  font-family: Open Sans;
+  font-weight: 600 !important;
+  font-size: 18px !important;
+  line-height: 24px !important;
+  letter-spacing: 0%;
+  color: #ffffff;
+}
