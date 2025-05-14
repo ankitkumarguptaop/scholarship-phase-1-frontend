@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Paper,
   Stack,
   TextField,
@@ -9,6 +8,7 @@ import {
 import React from "react";
 import styles from "./access.module.scss";
 import Image from "next/image";
+import AccessTokenButton from "@/components/access-token-button/button";
 const Access = () => {
   return (
     <Box
@@ -21,7 +21,6 @@ const Access = () => {
         <Image
           src={`/images/logo-funiber-headquarters-us.png`}
           alt="Headquarter Logo"
-          // sizes="100svw,100svh"
           className={styles.logo}
           width={352}
           height={110.2}
@@ -34,18 +33,9 @@ const Access = () => {
               <Typography className={styles["loginSubtitle"]}>
                 Enter the access code to continue
               </Typography>
-
-             
             </Stack>
-             <TextField
-                id="outlined-basic"
-                label="Access code"
-                variant="outlined"
-                className={styles["inputAccessToken"]}
-              />
-              <Button variant="contained" className={styles["loginButton"]}>
-                LOG IN
-              </Button>
+            
+           <AccessTokenButton/>
           </Stack>
         </Box>
       </Paper>

@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import "./globals.scss";
-import { Open_Sans } from 'next/font/google'
+import { Open_Sans } from "next/font/google";
+import ReduxProvider from "@/store/redux-provider";
 
 const openSans = Open_Sans({
-  subsets: ['latin'],
-  weight: ['400'], // Add more weights if needed
-  variable: '--font-open-sans',
-})
-
-
+  subsets: ["latin"],
+  weight: ["400"], // Add more weights if needed
+  variable: "--font-open-sans",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,12 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${openSans.variable} `}
-      >
-        <AppRouterCacheProvider>
-        {children}
-        </AppRouterCacheProvider>
+      <body className={`${openSans.variable} `}>
+        <ReduxProvider>
+          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
