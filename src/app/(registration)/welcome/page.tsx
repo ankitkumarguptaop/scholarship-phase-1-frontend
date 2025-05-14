@@ -11,9 +11,6 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StartButton from "@/components/start-button/button";
 export default function WelcomePage() {
 
-function handleStart() {
-  console.log("Start button clicked"); 
-}
 
 
   return (
