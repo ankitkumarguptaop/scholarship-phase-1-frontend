@@ -12,7 +12,7 @@ export default function RegistrationStepper() {
   ];
 
   return (
-    <Box sx={{ width: "123px", height: "848px" }}>
+    <Box  sx={{  width: "123px", height: "848px" }}> 
       <Stepper
         sx={{
           display: "flex",

@@ -1,24 +1,11 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { applicantLoginAction } from "./login.action";
-import { signUpUser } from "../scholarship-application/scholarship-application.action";
+import { redirect } from "next/navigation";
 
-interface User {
-  name: string;
-  email: string;
-  token: string;
-  role: string;
-  profilePic?: string;
-}
 
-interface AuthState {
-  currentUser: User | null;
-  isLoading: boolean;
-  error: string | null;
-}
 
-const initialState: AuthState = {
-  currentUser: null,
+const initialState = {
   isLoading: false,
   error: null,
 };
@@ -38,6 +25,7 @@ export const applicantLoginSlice = createSlice({
       })
       .addCase(applicantLoginAction.fulfilled, (state: any) => {
         state.isLoading = false;
+        redirect("/welcome");
       })
       .addCase(applicantLoginAction.rejected, (state: any, action: any) => {
         state.isLoading = false;

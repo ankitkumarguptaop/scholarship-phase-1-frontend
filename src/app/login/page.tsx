@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import styles from "./access.module.scss";
+import styles from "./page.module.scss";
 import Image from "next/image";
 import AccessTokenButton from "@/components/access-token-button/button";
 const Access = () => {

@@ -3,6 +3,10 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import "./globals.scss";
 import { Open_Sans } from "next/font/google";
 import ReduxProvider from "@/store/redux-provider";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import LocalizationWrapper from "@/libs/localization";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -24,7 +28,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${openSans.variable} `}>
         <ReduxProvider>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          <LocalizationWrapper>
+            <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          </LocalizationWrapper>
         </ReduxProvider>
       </body>
     </html>

@@ -9,9 +9,14 @@ import BusinessCenterOutlinedIcon from "@mui/icons-material/BusinessCenterOutlin
 import FolderSharedOutlinedIcon from "@mui/icons-material/FolderSharedOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StartButton from "@/components/start-button/button";
-export default function WelcomePage() {
-
-
+import { getIronSession } from "iron-session";
+import { SessionData, sessionOptions } from "@/libs/irron-session";
+import { cookies } from "next/headers";
+export default async function WelcomePage() {
+  const session = await getIronSession<SessionData>(
+    await cookies(),
+    sessionOptions
+  );
 
   return (
     <Box className={styles.container}>
@@ -45,39 +50,39 @@ export default function WelcomePage() {
 
           <Box className={styles.cardContainer} gap={4}>
             <Box className={styles.card}>
-              <Box className={styles.iconBox} >
+              <Box className={styles.iconBox}>
                 <Box className={styles.icon}>
                   <PersonOutlineOutlinedIcon />
                 </Box>
               </Box>
               <Typography className={styles.cardText}>Personal</Typography>
             </Box>
-              <Box className={styles.card}>
-              <Box className={styles.iconBox} >
+            <Box className={styles.card}>
+              <Box className={styles.iconBox}>
                 <Box className={styles.icon}>
                   <SchoolOutlinedIcon />
                 </Box>
               </Box>
               <Typography className={styles.cardText}>Academic</Typography>
             </Box>
-              <Box className={styles.card}>
-              <Box className={styles.iconBox} >
+            <Box className={styles.card}>
+              <Box className={styles.iconBox}>
                 <Box className={styles.icon}>
                   <BusinessCenterOutlinedIcon />
                 </Box>
               </Box>
               <Typography className={styles.cardText}>Labor</Typography>
             </Box>
-              <Box className={styles.card}>
-              <Box className={styles.iconBox} >
+            <Box className={styles.card}>
+              <Box className={styles.iconBox}>
                 <Box className={styles.icon}>
                   <FolderSharedOutlinedIcon />
                 </Box>
               </Box>
               <Typography className={styles.cardText}>References</Typography>
             </Box>
-               <Box className={styles.card}>
-              <Box className={styles.iconBox} >
+            <Box className={styles.card}>
+              <Box className={styles.iconBox}>
                 <Box className={styles.icon}>
                   <DescriptionOutlinedIcon />
                 </Box>
@@ -85,11 +90,15 @@ export default function WelcomePage() {
               <Typography className={styles.cardText}>Documents</Typography>
             </Box>
           </Box>
-         <Typography className={styles.welcomeDescription}>
-            Once the requested information has been entered and sent, our advisors will contact you. Our selection process for FUNIBER scholarship applicants takes between 5 to 10 working days. If you have any doubts or questions, please contact your commercial advisor.
-         </Typography>
+          <Typography className={styles.welcomeDescription}>
+            Once the requested information has been entered and sent, our
+            advisors will contact you. Our selection process for FUNIBER
+            scholarship applicants takes between 5 to 10 working days. If you
+            have any doubts or questions, please contact your commercial
+            advisor.
+          </Typography>
         </Box>
-         <StartButton/>
+        <StartButton />
       </Box>
     </Box>
   );
