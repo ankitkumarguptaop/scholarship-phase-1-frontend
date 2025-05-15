@@ -12,7 +12,7 @@ const AccessTokenButton = () => {
 
 
   function validateAccessToken() {
-    dispatch(applicantLoginAction(accessToken));
+    // dispatch(applicantLoginAction(accessToken));
     console.log(accessToken);
   }
   return (

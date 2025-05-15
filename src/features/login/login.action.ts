@@ -9,11 +9,11 @@ console.log('✌️payload --->', payload);
     try {
       const response = await applicantLoginService(payload);
       const data: applicantData = response.data;
-      console.log("Signup response data:", data);
+      console.log("login response data:", data);
       return data;
     } catch (error: any) {
-      console.error("Signup error:", error);
-      return rejectWithValue(error.response?.data || "Signup failed");
+      console.error("login error:", error);
+      return rejectWithValue(error.response?.data || "login failed");
     }
   }
 );

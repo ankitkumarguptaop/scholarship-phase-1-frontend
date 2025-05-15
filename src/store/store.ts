@@ -1,6 +1,7 @@
 "use client";
 import { configureStore } from "@reduxjs/toolkit";
 import applicantLoginReducer from "../features/login/login.slice";
+import personaldetailsReducer from "../features/personal-detail/personal-details.slice"
 
 
 
@@ -8,6 +9,7 @@ import applicantLoginReducer from "../features/login/login.slice";
 export const store = configureStore({
   reducer: {
     login:  applicantLoginReducer,
+    personalDetails : personaldetailsReducer
     
   },
   middleware: (getDefaultMiddleware:any) =>

@@ -14,16 +14,24 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./page.module.scss";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { getPersonalDetailsAction } from "@/features/personal-detail/personal-details.action";
+import { useDispatch } from "react-redux";
 
 const PersonalDetailsRegistration = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // dispatch(getPersonalDetailsAction("10840177-2650-4117-9c64-867d722825a9"));
+  }, []);
+
+
   return (
     <Box className={styles.container}>
       <RegistrationStepper />
-
       <Box className={styles.personalDetailsContainer}>
         <Box className={styles.personalDetailsTitle}>
           <Typography
@@ -470,5 +478,3 @@ const PersonalDetailsRegistration = () => {
 };
 
 export default PersonalDetailsRegistration;
-
-

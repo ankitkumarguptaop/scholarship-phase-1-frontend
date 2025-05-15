@@ -12,8 +12,6 @@ export async function POST(request: NextRequest) {
       access_token: body.token,
     });
 
-
-
     if (response.status === 201) {
       const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
       session.isLoggedIn = true;
