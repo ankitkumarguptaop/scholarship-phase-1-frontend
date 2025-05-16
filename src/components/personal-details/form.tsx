@@ -54,54 +54,113 @@ enum FinancialDependency {
 
 // Zod schema definition
 const personalInfoSchema = z.object({
-  document_type: z.nativeEnum(DocumentType, {
-    errorMap: () => ({ message: "Please select a document type" }),
-  }),
-  document_number: z.string().min(1, "Document number is required"),
-  marital_status: z.nativeEnum(MaritalStatus, {
-    errorMap: () => ({ message: "Please select a marital status" }),
-  }),
-  profession: z.string().min(1, "Profession is required"),
-  date_of_birth: z.any(),
+  document_type: z
+    .nativeEnum(DocumentType, {
+      errorMap: () => ({ message: "Please select a document type" }),
+    })
+    .optional()
+    .nullable(),
 
-  country: z.string().min(1, "Country is required"),
-  province_or_state: z.string().min(1, "Province/State is required"),
-  city: z.string().min(1, "City is required"),
-  nationality: z.string().min(1, "Nationality is required"),
+  document_number: z
+    .string()
+    .min(1, "Document number is required")
+    .optional()
+    .nullable(),
+
+  marital_status: z
+    .nativeEnum(MaritalStatus, {
+      errorMap: () => ({ message: "Please select a marital status" }),
+    })
+    .optional()
+    .nullable(),
+
+  profession: z
+    .string()
+    .min(1, "Profession is required")
+    .optional()
+    .nullable(),
+
+  date_of_birth: z.any().optional().nullable(),
+
+  country: z
+    .string()
+    .min(1, "Country is required")
+    .optional()
+    .nullable(),
+
+  province_or_state: z
+    .string()
+    .min(1, "Province/State is required")
+    .optional()
+    .nullable(),
+
+  city: z
+    .string()
+    .min(1, "City is required")
+    .optional()
+    .nullable(),
+
+  nationality: z
+    .string()
+    .min(1, "Nationality is required")
+    .optional()
+    .nullable(),
+
   monthly_income: z
     .string()
     .min(1, "Monthly income is required")
     .refine(
       (val) => !isNaN(Number(val)) && Number(val) >= 0,
       "Must be a positive number"
-    ),
+    )
+    .optional()
+    .nullable(),
+
   monthly_expenses: z
     .string()
     .min(1, "Monthly expenses is required")
     .refine(
       (val) => !isNaN(Number(val)) && Number(val) >= 0,
       "Must be a positive number"
-    ),
-  financial_dependency: z.nativeEnum(FinancialDependency, {
-    errorMap: () => ({ message: "Please select yes or no" }),
-  }),
-  has_children: z.boolean(),
+    )
+    .optional()
+    .nullable(),
+
+  financial_dependency: z
+    .nativeEnum(FinancialDependency, {
+      errorMap: () => ({ message: "Please select yes or no" }),
+    })
+    .optional()
+    .nullable(),
+
+  has_children: z.boolean().optional().nullable(),
+
   children_0_4: z
-    .number({ required_error: "This field is required" })
-    .min(0, "Must be a positive number"),
+    .number()
+    .min(0, "Must be a positive number")
+    .optional()
+    .nullable(),
 
   children_5_12: z
-    .number({ required_error: "This field is required" })
-    .min(0, "Must be a positive number"),
+    .number()
+    .min(0, "Must be a positive number")
+    .optional()
+    .nullable(),
 
   children_13_18: z
-    .number({ required_error: "This field is required" })
-    .min(0, "Must be a positive number"),
+    .number()
+    .min(0, "Must be a positive number")
+    .optional()
+    .nullable(),
 
   children_above_18: z
-    .number({ required_error: "This field is required" })
-    .min(0, "Must be a positive number"),
+    .number()
+    .min(0, "Must be a positive number")
+    .optional()
+    .nullable(),
 });
+
+
 
 // Type inference from the schema
 type PersonalInfoFormData = z.infer<typeof personalInfoSchema>;
