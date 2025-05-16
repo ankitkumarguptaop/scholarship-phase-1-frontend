@@ -7,6 +7,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import LocalizationWrapper from "@/libs/localization";
+import { SnackbarProvider } from "notistack";
+import SnackBarProviderWrapper from "@/libs/snackbar-provider";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -28,9 +30,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${openSans.variable} `}>
         <ReduxProvider>
-          <LocalizationWrapper>
-            <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-          </LocalizationWrapper>
+          <SnackBarProviderWrapper>
+            <LocalizationWrapper>
+              <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+            </LocalizationWrapper>
+          </SnackBarProviderWrapper>
         </ReduxProvider>
       </body>
     </html>
