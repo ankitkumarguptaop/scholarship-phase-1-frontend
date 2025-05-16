@@ -1,3 +1,4 @@
+import { ScholarshipApplicationStatus } from "@/features/application/application.type";
 import { SessionOptions } from "iron-session";
 
 
@@ -18,6 +19,7 @@ export type sessionData = {
   uuid: string;
   id: number;
   updated_at: string; 
+  status: ScholarshipApplicationStatus
 };
 
 export interface SessionData {

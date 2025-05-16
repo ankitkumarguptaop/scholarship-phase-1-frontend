@@ -9,6 +9,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import styles from "./navbar.module.scss";
+import logout from "@/libs/logout";
+
 
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
@@ -22,13 +24,13 @@ export default function MenuAppBar() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClose = async () => {
+    logout()
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: '#01579B' }}>
+      <AppBar position="static" sx={{ backgroundColor: "#01579B" }}>
         <Toolbar>
           <Typography className={styles["heading"]} sx={{ flexGrow: 1 }}>
             Online scholarship form
@@ -45,8 +47,11 @@ export default function MenuAppBar() {
               >
                 <AccountCircle />
               </IconButton>
-              <Typography  sx={{ flexGrow: 1 }} className={styles["profileName"]}>
-                Kevin Andrade 
+              <Typography
+                sx={{ flexGrow: 1 }}
+                className={styles["profileName"]}
+              >
+                Kevin Andrade
               </Typography>
               <Menu
                 id="menu-appbar"
@@ -63,8 +68,7 @@ export default function MenuAppBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
             </Box>
           )}

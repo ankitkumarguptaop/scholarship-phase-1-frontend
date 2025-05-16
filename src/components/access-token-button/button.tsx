@@ -3,7 +3,7 @@ import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
 import React from "react";
 import styles from "./button.module.scss";
 import { useDispatch } from "react-redux";
-import { applicantLoginAction } from "@/features/login/login.action";
+import { applicantLoginAction } from "@/features/application/application.action";
 import { AppDispatch } from "@/store/store";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 

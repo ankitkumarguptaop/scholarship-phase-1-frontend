@@ -1,10 +1,10 @@
 "use client";
 import { AnyAction, configureStore, ThunkDispatch } from "@reduxjs/toolkit";
-import applicantLoginReducer from "../features/login/login.slice";
+import applicationReducer from "../features/application/application.slice";
 import personaldetailsReducer from "../features/personal-detail/personal-details.slice";
 export const store = configureStore({
   reducer: {
-    login: applicantLoginReducer,
+    application: applicationReducer,
     personalDetails: personaldetailsReducer,
   },
   middleware: (getDefaultMiddleware: any) =>

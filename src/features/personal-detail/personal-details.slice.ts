@@ -5,11 +5,13 @@ import { personalDataSchema } from "./personal-details.type";
 
 const initialState :{
   data:any,
-  isLoading:boolean,
+  getLoading:boolean,
+  isLoading:boolean
   error:any
 } = {
   data: null,
-  isLoading: false,
+  getLoading: false,
+  isLoading:false,
   error: null,
 };
 
@@ -24,14 +26,14 @@ export const personaldetailsSlice = createSlice({
   extraReducers: (builder: any) => {
     builder
       .addCase(getPersonalDetailsAction.pending, (state: any) => {
-        state.isLoading = true;
+        state.getLoading = true;
       })
       .addCase(getPersonalDetailsAction.fulfilled, (state: any ,action:any) => {
         state.data=action.payload.data
-        state.isLoading = false;
+        state.getLoading = false;
       })
       .addCase(getPersonalDetailsAction.rejected, (state: any, action: any) => {
-        state.isLoading = false;
+        state.getLoading = false;
         state.error = action.error?.message || null;
       })
       .addCase(createPersonalDetailsAction.pending, (state: any) => {

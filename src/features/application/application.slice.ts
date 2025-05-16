@@ -1,9 +1,6 @@
-
 import { createSlice } from "@reduxjs/toolkit";
-import { applicantLoginAction } from "./login.action";
+import { applicantLoginAction, applicationStatusUpdateAction } from "./application.action";
 import { redirect } from "next/navigation";
-
-
 
 const initialState = {
   isLoading: false,
@@ -31,7 +28,16 @@ export const applicantLoginSlice = createSlice({
         state.isLoading = false;
         state.error = action.error?.message || null;
       })
-    
+      .addCase(applicationStatusUpdateAction.pending, (state: any) => {
+        state.isLoading = true;
+      })
+      .addCase(applicationStatusUpdateAction.fulfilled, (state: any) => {
+        state.isLoading = false;
+      })
+      .addCase(applicationStatusUpdateAction.rejected, (state: any, action: any) => {
+        state.isLoading = false;
+        state.error = action.error?.message || null;
+      });
   },
 });
 

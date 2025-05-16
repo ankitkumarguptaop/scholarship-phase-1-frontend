@@ -12,11 +12,16 @@ import StartButton from "@/components/start-button/button";
 import { getIronSession } from "iron-session";
 import { SessionData, sessionOptions } from "@/libs/irron-session";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 export default async function WelcomePage() {
   const session = await getIronSession<SessionData>(
     await cookies(),
     sessionOptions
   );
+
+  if(!session.applicantData?.applicant_uuid){
+    redirect("/login")
+  }
 
   return (
     <Box className={styles.container}>
@@ -98,7 +103,7 @@ export default async function WelcomePage() {
             advisor.
           </Typography>
         </Box>
-        <StartButton />
+        <StartButton application_uuid={session?.applicantData?.uuid} />
       </Box>
     </Box>
   );

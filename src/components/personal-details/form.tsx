@@ -28,7 +28,8 @@ import {
   getPersonalDetailsAction,
 } from "@/features/personal-detail/personal-details.action";
 import { AppDispatch, RootStateType } from "@/store/store";
-import { sessionData, SessionData } from "@/libs/irron-session";
+import { sessionData } from "@/libs/irron-session";
+import Loading from "@/app/(registration)/personal-details/loading";
 
 // Enum definitions matching backend
 enum DocumentType {
@@ -74,19 +75,11 @@ const personalInfoSchema = z.object({
     .optional()
     .nullable(),
 
-  profession: z
-    .string()
-    .min(1, "Profession is required")
-    .optional()
-    .nullable(),
+  profession: z.string().min(1, "Profession is required").optional().nullable(),
 
   date_of_birth: z.any().optional().nullable(),
 
-  country: z
-    .string()
-    .min(1, "Country is required")
-    .optional()
-    .nullable(),
+  country: z.string().min(1, "Country is required").optional().nullable(),
 
   province_or_state: z
     .string()
@@ -94,11 +87,7 @@ const personalInfoSchema = z.object({
     .optional()
     .nullable(),
 
-  city: z
-    .string()
-    .min(1, "City is required")
-    .optional()
-    .nullable(),
+  city: z.string().min(1, "City is required").optional().nullable(),
 
   nationality: z
     .string()
@@ -136,31 +125,61 @@ const personalInfoSchema = z.object({
   has_children: z.boolean().optional().nullable(),
 
   children_0_4: z
-    .number()
-    .min(0, "Must be a positive number")
+    .string()
+    .refine(
+      (val) =>
+        val === null ||
+        val === "" ||
+        (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 99),
+      {
+        message: "Must be a number greater than 0 and less than or equal to 99",
+      }
+    )
     .optional()
     .nullable(),
 
   children_5_12: z
-    .number()
-    .min(0, "Must be a positive number")
+    .string()
+    .refine(
+      (val) =>
+        val === null ||
+        val === "" ||
+        (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 99),
+      {
+        message: "Must be a number greater than 0 and less than or equal to 99",
+      }
+    )
     .optional()
     .nullable(),
 
   children_13_18: z
-    .number()
-    .min(0, "Must be a positive number")
+    .string()
+    .refine(
+      (val) =>
+        val === null ||
+        val === "" ||
+        (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 99),
+      {
+        message: "Must be a number greater than 0 and less than or equal to 99",
+      }
+    )
     .optional()
     .nullable(),
 
   children_above_18: z
-    .number()
-    .min(0, "Must be a positive number")
+    .string()
+    .refine(
+      (val) =>
+        val === null ||
+        val === "" ||
+        (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 99),
+      {
+        message: "Must be a number greater than 0 and less than or equal to 99",
+      }
+    )
     .optional()
     .nullable(),
 });
-
-
 
 // Type inference from the schema
 type PersonalInfoFormData = z.infer<typeof personalInfoSchema>;
@@ -197,6 +216,7 @@ const PersonalDetailsRegistration = ({
         }
       : undefined,
   });
+  const hasChildren = watch("has_children");
 
   useEffect(() => {
     if (personalDetails) {
@@ -216,26 +236,43 @@ const PersonalDetailsRegistration = ({
     console.log("✌️isValid --->", isValid);
 
     if (isValid.success) {
-      const payload: any = {
+      let payload: any = {
         ...currentData,
         application_id: applicantData?.uuid,
       };
+
+      if (!hasChildren) {
+        payload = {
+          ...payload,
+          children_0_4: null,
+          children_5_12: null,
+          children_13_18: null,
+          children_above_18: null,
+        };
+      }
       dispatch(createPersonalDetailsAction(payload));
     }
   }, [watch(), applicantData?.uuid]);
-
-  const hasChildren = watch("has_children");
 
   const onSubmit = (data: PersonalInfoFormData) => {
     const alldata: any = { ...data, application_id: applicantData?.uuid };
     dispatch(createPersonalDetailsAction(alldata));
   };
 
+
+
+
+    const isLoading = useSelector(
+    (state: RootStateType) => state.personalDetails.getLoading
+  );
+
+
   const handleCancel = () => {
     console.log("Form cancelled");
   };
 
-  return (
+  return (<>{
+    !isLoading && personalDetails?
     <Box className={styles.container}>
       <RegistrationStepper />
       <Box className={styles.personalDetailsContainer}>
@@ -417,7 +454,8 @@ const PersonalDetailsRegistration = ({
                       {...field}
                       value={field.value ? dayjs(field.value) : null}
                       label="Date of Birth"
-                      enableAccessibleFieldDOMStructure={false}
+                      maxDate={dayjs()}
+                      // enableAccessibleFieldDOMStructure={false}
                       slotProps={{
                         textField: {
                           error: !!errors.date_of_birth,
@@ -786,7 +824,7 @@ const PersonalDetailsRegistration = ({
                   <TextField
                     disabled={!hasChildren}
                     {...field}
-                    value={field.value ?? 0}
+                    value={field.value === "0" ? "" : field.value ?? ""}
                     label="0 to 4 years"
                     placeholder="0 to 4 years"
                     type="number"
@@ -799,6 +837,7 @@ const PersonalDetailsRegistration = ({
                       },
                     }}
                     className={styles.select}
+                    inputProps={{ min: 0, max: 99 }}
                   />
                 )}
               />
@@ -812,7 +851,7 @@ const PersonalDetailsRegistration = ({
                   <TextField
                     disabled={!hasChildren}
                     {...field}
-                    value={field.value ?? ""}
+                    value={field.value === "0" ? "" : field.value ?? ""}
                     label="5 to 12 years"
                     placeholder="5 to 12 years"
                     type="number"
@@ -838,7 +877,7 @@ const PersonalDetailsRegistration = ({
                   <TextField
                     disabled={!hasChildren}
                     {...field}
-                    value={field.value ?? ""}
+                    value={field.value === "0" ? "" : field.value ?? ""}
                     label="13 to 18 years"
                     placeholder="13 to 18 years"
                     type="number"
@@ -864,7 +903,7 @@ const PersonalDetailsRegistration = ({
                   <TextField
                     disabled={!hasChildren}
                     {...field}
-                    value={field.value ?? ""}
+                    value={field.value === "0" ? "" : field.value ?? ""}
                     label="+ 18 years"
                     placeholder="+ 18 years"
                     type="number"
@@ -908,6 +947,8 @@ const PersonalDetailsRegistration = ({
         {/* </form> */}
       </Box>
     </Box>
+    : <Loading/>}
+</>
   );
 };
 

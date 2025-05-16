@@ -5,6 +5,7 @@ import { sessionOptions, SessionData } from '@/libs/irron-session';
 import PersonalDetailsRegistration from '@/components/personal-details/form';
 import { redirect } from 'next/navigation';
 
+
 export default async function PersonalDetailsPage() {
   const session = await getIronSession<SessionData>(
     await cookies(),
@@ -15,6 +16,7 @@ export default async function PersonalDetailsPage() {
   if (!session || !session.applicantData) {
     redirect("/login")
   }
+
 
   return <PersonalDetailsRegistration applicantData={session.applicantData} />;
 }
