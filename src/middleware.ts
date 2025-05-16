@@ -1,4 +1,3 @@
-// middleware.ts
 import { getIronSession } from "iron-session";
 import { NextRequest, NextResponse } from "next/server";
 import { sessionOptions, SessionData } from "@/libs/irron-session";

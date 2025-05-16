@@ -29,8 +29,6 @@ import {
 } from "@/features/personal-detail/personal-details.action";
 import { AppDispatch, RootStateType } from "@/store/store";
 import { sessionData, SessionData } from "@/libs/irron-session";
-import { create } from "node:domain";
-import { personalDataSchema } from "@/features/personal-detail/personal-details.type";
 
 // Enum definitions matching backend
 enum DocumentType {
