@@ -6,11 +6,11 @@ export const sessionOptions: SessionOptions = {
   cookieName: "scholarship_session",
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
-    maxAge: 17, // 10 seconds
+    maxAge: 60*30, // 10 seconds
   },
 };
 
-type sessionData = {
+export type sessionData = {
   applicant_uuid: string;
   advisor_uuid: string;
   email: string;

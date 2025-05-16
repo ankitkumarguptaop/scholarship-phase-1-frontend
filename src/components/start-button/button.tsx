@@ -2,10 +2,12 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 import styles from "./button.module.scss";
+import { redirect } from "next/navigation";
 
 const StartButton = () => {
   function handleStart() {
-    console.log("Start button clicked");
+    redirect("/personal-details")
+    // make api call to update status of application
   }
   return (
     <Box className={styles.container}>

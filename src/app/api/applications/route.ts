@@ -5,11 +5,11 @@ import { NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-
+    const data = body.data;
     const response = await axiosInstance.post(
       "scholarships/applications/personal-details",
       {
-        body,
+        ...data,
       }
     );
 

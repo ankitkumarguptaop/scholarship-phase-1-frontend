@@ -3,7 +3,7 @@ import { getIronSession } from "iron-session";
 import { NextRequest, NextResponse } from "next/server";
 import { sessionOptions, SessionData } from "@/libs/irron-session";
 
-const PROTECTED_ROUTES = ["/welcome"];
+const PROTECTED_ROUTES = ["/welcome" ,"/personal-details"];
 
 export async function middleware(request: NextRequest) {
   const res = NextResponse.next();
@@ -18,7 +18,6 @@ export async function middleware(request: NextRequest) {
   return res;
 }
 
-// This ensures middleware runs only for specific routes
 export const config = {
-  matcher: ["/welcome"],
+  matcher: ["/welcome" ,"/personal-details"],
 };

@@ -1,8 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createPersonalDetailsAction, getPersonalDetailsAction } from "./personal-details.action";
+import { act } from "react";
+import { personalDataSchema } from "./personal-details.type";
 
-const initialState = {
-  personalDetails: null,
+const initialState :{
+  data:any,
+  isLoading:boolean,
+  error:any
+} = {
+  data: null,
   isLoading: false,
   error: null,
 };
@@ -20,7 +26,8 @@ export const personaldetailsSlice = createSlice({
       .addCase(getPersonalDetailsAction.pending, (state: any) => {
         state.isLoading = true;
       })
-      .addCase(getPersonalDetailsAction.fulfilled, (state: any) => {
+      .addCase(getPersonalDetailsAction.fulfilled, (state: any ,action:any) => {
+        state.data=action.payload.data
         state.isLoading = false;
       })
       .addCase(getPersonalDetailsAction.rejected, (state: any, action: any) => {
