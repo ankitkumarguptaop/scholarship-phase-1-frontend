@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
 import React from "react";
 import styles from "./button.module.scss";
@@ -14,10 +14,6 @@ const AccessTokenButton = () => {
 
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
-  };
-
-  const handleMouseDownPassword = (event: React.MouseEvent) => {
-    event.preventDefault();
   };
 
   function validateAccessToken() {
@@ -38,7 +34,6 @@ const AccessTokenButton = () => {
           <InputAdornment position="end">
             <IconButton
               onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
               edge="end"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}

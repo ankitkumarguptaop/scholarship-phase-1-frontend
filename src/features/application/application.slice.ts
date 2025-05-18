@@ -1,3 +1,4 @@
+
 import { createSlice } from "@reduxjs/toolkit";
 import {
   applicantLoginAction,
@@ -25,8 +26,8 @@ export const applicantLoginSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(applicantLoginAction.fulfilled, (state: any) => {
-         enqueueSnackbar("Invalid Access Token !", {
-          variant: "error",
+         enqueueSnackbar("Valid Access Token !", {
+          variant: "success",
          
         });
         state.isLoading = false;

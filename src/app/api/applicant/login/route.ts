@@ -13,13 +13,18 @@ export async function POST(request: NextRequest) {
     });
 
     if (response.status === 201) {
-      const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
+      const session = await getIronSession<SessionData>(
+        await cookies(),
+        sessionOptions
+      );
       session.isLoggedIn = true;
       session.applicantData = response.data ?? null;
       await session.save();
-   
     } else {
-      console.log("Login failed");
+      return new Response(JSON.stringify({ message: "invalidate token" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     return new Response(

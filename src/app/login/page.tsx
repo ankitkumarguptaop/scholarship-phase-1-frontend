@@ -1,10 +1,5 @@
-import {
-  Box,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 import styles from "./page.module.scss";
 import Image from "next/image";
@@ -34,8 +29,8 @@ const Access = () => {
                 Enter the access code to continue
               </Typography>
             </Stack>
-            
-           <AccessTokenButton/>
+
+            <AccessTokenButton />
           </Stack>
         </Box>
       </Paper>

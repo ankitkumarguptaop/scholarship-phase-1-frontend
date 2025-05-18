@@ -29,13 +29,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${openSans.variable} `}>
-        <ReduxProvider>
+        <AppRouterCacheProvider>
           <SnackBarProviderWrapper>
-            <LocalizationWrapper>
-              <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-            </LocalizationWrapper>
+            <ReduxProvider>
+              <LocalizationWrapper>{children}</LocalizationWrapper>
+            </ReduxProvider>
           </SnackBarProviderWrapper>
-        </ReduxProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
