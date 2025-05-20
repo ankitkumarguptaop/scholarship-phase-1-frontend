@@ -1,17 +1,16 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 import {
   applicantLoginAction,
   applicationStatusUpdateAction,
 } from "./application.action";
 import { redirect } from "next/navigation";
-import { enqueueSnackbar } from "notistack";
+import { createAppSlice } from "@/store/create-slice";
 const initialState = {
   isLoading: false,
   error: null,
 };
 
-export const applicantLoginSlice = createSlice({
+export const applicantLoginSlice = createAppSlice({
   name: "login",
   initialState,
   reducers: {
@@ -22,23 +21,14 @@ export const applicantLoginSlice = createSlice({
   extraReducers: (builder: any) => {
     builder
       .addCase(applicantLoginAction.pending, (state: any) => {
-      
         state.isLoading = true;
       })
       .addCase(applicantLoginAction.fulfilled, (state: any) => {
-         enqueueSnackbar("Valid Access Token !", {
-          variant: "success",
-         
-        });
         state.isLoading = false;
         redirect("/welcome");
       })
       .addCase(applicantLoginAction.rejected, (state: any, action: any) => {
         state.isLoading = false;
-        enqueueSnackbar("Invalid Access Token !", {
-          variant: "error",
-         
-        });
         state.error = action.error?.message || null;
       })
       .addCase(applicationStatusUpdateAction.pending, (state: any) => {

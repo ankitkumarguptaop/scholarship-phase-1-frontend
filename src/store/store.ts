@@ -1,19 +1,31 @@
-"use client";
-import { AnyAction, configureStore, ThunkDispatch } from "@reduxjs/toolkit";
+import {
+  Action,
+  combineSlices,
+  configureStore,
+  ThunkAction,
+} from "@reduxjs/toolkit";
 import applicationReducer from "../features/application/application.slice";
 import personaldetailsReducer from "../features/personal-detail/personal-details.slice";
-export const store = configureStore({
-  reducer: {
-    application: applicationReducer,
-    personalDetails: personaldetailsReducer,
-  },
-  middleware: (getDefaultMiddleware: any) =>
-    getDefaultMiddleware({
-      serializableCheck: false, // stringify the state
-    }),
+
+const rootReducer = combineSlices({
+  application: applicationReducer,
+  personalDetails: personaldetailsReducer,
+});
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+export const makeStore = () => {
+  return configureStore({
+    reducer: rootReducer,
   });
-  
-  export type AppStore = typeof store;
-  export type RootStateType = ReturnType<typeof store.getState>;
-  // export type AppDispatch = typeof store.dispatch;
-  export type AppDispatch = ThunkDispatch<RootStateType, void, AnyAction>;
+};
+
+export type AppStore = ReturnType<typeof makeStore>;
+
+export type AppDispatch = AppStore["dispatch"];
+export type AppThunk<ThunkReturnType = void> = ThunkAction<
+  ThunkReturnType,
+  RootState,
+  unknown,
+  Action
+>;

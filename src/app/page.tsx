@@ -1,10 +1,11 @@
+import React from 'react'
 
-
-export default function LoginPage() {
-
-  
-
+const page = () => {
   return (
-   <></>
-  );
+    <div>
+      
+    </div>
+  )
 }
+
+export default page

@@ -1,3 +1,4 @@
+import { RESPONSE_CODES } from "@/common/status-code";
 import axiosInstance from "@/libs/axios";
 import { NextRequest } from "next/server";
 
@@ -15,14 +16,14 @@ export async function GET(request: NextRequest, { params }: { params: { applicat
         data: response.data,
       }),
       {
-        status: 200,
+        status: response.status,
         headers: { "Content-Type": "application/json" },
       }
     );
   } catch (error: any) {
     console.error("Error fetching personal details:", error);
     return new Response(JSON.stringify("Internal Server Error"), {
-      status: 500,
+      status: RESPONSE_CODES.INTERNAL_SERVER_ERROR,
       headers: { "Content-Type": "application/json" },
     });
   }

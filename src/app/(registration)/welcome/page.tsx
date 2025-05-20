@@ -18,6 +18,7 @@ export default async function WelcomePage() {
     await cookies(),
     sessionOptions
   );
+  console.log('✌️session --->', session);
 
   if(!session.applicantData?.applicant_uuid){
     redirect("/login")

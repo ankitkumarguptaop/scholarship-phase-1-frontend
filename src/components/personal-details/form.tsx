@@ -22,187 +22,17 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import styles from "./page.module.scss";
 import RegistrationStepper from "@/components/stepper/stepper";
-import { useDispatch, useSelector } from "react-redux";
 import {
   createPersonalDetailsAction,
   getPersonalDetailsAction,
 } from "@/features/personal-detail/personal-details.action";
-import { AppDispatch, RootStateType } from "@/store/store";
+import { RootState } from "@/store/store";
 import { sessionData } from "@/libs/irron-session";
 import Loading from "@/app/(registration)/personal-details/loading";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { personalInfoSchema } from "./schema";
+import { DocumentType, FinancialDependency, MaritalStatus } from "./enums";
 
-// Enum definitions matching backend
-enum DocumentType {
-  NATIONAL_ID = "National identity card",
-  PASSPORT = "Passport",
-  FOREIGN_ID = "Foreigner's identity card",
-  RUC = "RUC",
-  OTHER = "Other",
-}
-
-enum MaritalStatus {
-  MARRIED = "Married",
-  SINGLE = "Single",
-  DIVORCED = "Divorced",
-  WIDOWED = "Widowed",
-  SEPARATED = "Separated",
-}
-
-enum FinancialDependency {
-  YES = "Yes",
-  NO = "No",
-}
-
-const ageSchema = z
-  .string()
-  .transform((val) => {
-    if (val === "") return "0";
-    return val;
-  })
-  .refine(
-    (val) =>
-      val === null ||
-      (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 99),
-    {
-      message:
-        "Must be a number greater than or equal to 0 and less than or equal to 99",
-    }
-  )
-  .transform((val) => (val === null ? null : Number(val)))
-  .optional()
-  .nullable();
-
-// Zod schema definition
-const personalInfoSchema = z.object({
-  document_type: z
-    .nativeEnum(DocumentType, {
-      errorMap: () => ({ message: "Please select a document type" }),
-    })
-    .optional()
-    .nullable(),
-
-  document_number: z
-    .string()
-    .min(1, "Document number is required")
-    .optional()
-    .nullable(),
-
-  marital_status: z
-    .nativeEnum(MaritalStatus, {
-      errorMap: () => ({ message: "Please select a marital status" }),
-    })
-    .optional()
-    .nullable(),
-
-  profession: z.string().min(1, "Profession is required").optional().nullable(),
-
-  date_of_birth: z.any().optional().nullable(),
-
-  country: z.string().min(1, "Country is required").optional().nullable(),
-
-  province_or_state: z
-    .string()
-    .min(1, "Province/State is required")
-    .optional()
-    .nullable(),
-
-  city: z.string().min(1, "City is required").optional().nullable(),
-
-  nationality: z
-    .string()
-    .min(1, "Nationality is required")
-    .optional()
-    .nullable(),
-
-  monthly_income: z
-    .string()
-    .refine(
-      (val) => !isNaN(Number(val)) && Number(val) >= 0,
-      "Must be a positive number"
-    )
-    .optional()
-    .nullable(),
-
-  monthly_expenses: z
-    .string()
-    .refine(
-      (val) => !isNaN(Number(val)) && Number(val) >= 0,
-      "Must be a positive number"
-    )
-    .optional()
-    .nullable(),
-
-  financial_dependency: z
-    .nativeEnum(FinancialDependency, {
-      errorMap: () => ({ message: "Please select yes or no" }),
-    })
-    .optional()
-    .nullable(),
-
-  has_children: z.boolean().optional().nullable(),
-
-  children_0_4: z
-    .string()
-    .transform((val) => {
-      if (val === "") return "0";
-      return val;
-    })
-    .refine(
-      (val) =>
-        val === null ||
-        val === "" ||
-        (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 99),
-      {
-        message: "Must be a number greater than 0 and less than or equal to 99",
-      }
-    )
-    .optional()
-    .nullable(),
-
-  children_5_12: z
-    .string()
-    .refine(
-      (val) =>
-        val === null ||
-        val === "" ||
-        (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 99),
-      {
-        message: "Must be a number greater than 0 and less than or equal to 99",
-      }
-    )
-    .optional()
-    .nullable(),
-
-  children_13_18: z
-    .string()
-    .refine(
-      (val) =>
-        val === null ||
-        val === "" ||
-        (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 99),
-      {
-        message: "Must be a number greater than 0 and less than or equal to 99",
-      }
-    )
-    .optional()
-    .nullable(),
-
-  children_above_18: z
-    .string()
-    .refine(
-      (val) =>
-        val === null ||
-        val === "" ||
-        (!isNaN(Number(val)) && Number(val) >= 0 && Number(val) <= 99),
-      {
-        message: "Must be a number greater than 0 and less than or equal to 99",
-      }
-    )
-    .optional()
-    .nullable(),
-});
-
-// Type inference from the schema
 type PersonalInfoFormData = z.infer<typeof personalInfoSchema>;
 
 const PersonalDetailsRegistration = ({
@@ -210,10 +40,10 @@ const PersonalDetailsRegistration = ({
 }: {
   applicantData: sessionData;
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const personalDetails = useSelector(
-    (state: RootStateType) => state.personalDetails.data
+  const personalDetails = useAppSelector(
+    (state: RootState) => state.personalDetails.data
   );
 
   useEffect(() => {
@@ -285,8 +115,8 @@ const PersonalDetailsRegistration = ({
     dispatch(createPersonalDetailsAction(alldata));
   };
 
-  const isLoading = useSelector(
-    (state: RootStateType) => state.personalDetails.getLoading
+  const isLoading = useAppSelector(
+    (state: RootState) => state.personalDetails.getLoading
   );
 
   const handleCancel = () => {
@@ -378,7 +208,6 @@ const PersonalDetailsRegistration = ({
                           {...field}
                           value={field.value ?? ""}
                           label="Document Number"
-                          placeholder="Document Number"
                           error={!!errors.document_number}
                           helperText={errors.document_number?.message}
                           InputProps={{
@@ -435,7 +264,6 @@ const PersonalDetailsRegistration = ({
                         {...field}
                         value={field.value ?? ""}
                         label="Profession"
-                        placeholder="Profession"
                         error={!!errors.profession}
                         helperText={errors.profession?.message}
                         InputProps={{
@@ -660,7 +488,6 @@ const PersonalDetailsRegistration = ({
                         {...field}
                         value={field.value ?? ""}
                         label="Monthly Income"
-                        placeholder="Monthly Income"
                         error={!!errors.monthly_income}
                         helperText={errors.monthly_income?.message}
                         InputProps={{
@@ -682,7 +509,6 @@ const PersonalDetailsRegistration = ({
                         {...field}
                         value={field.value ?? ""}
                         label="Monthly Expense"
-                        placeholder="Monthly Expense"
                         error={!!errors.monthly_expenses}
                         helperText={errors.monthly_expenses?.message}
                         InputProps={{
@@ -853,7 +679,6 @@ const PersonalDetailsRegistration = ({
                         {...field}
                         value={field.value === "0" ? "" : field.value ?? ""}
                         label="0 to 4 years"
-                        placeholder="0 to 4 years"
                         type="number"
                         error={!!errors.children_0_4}
                         helperText={errors.children_0_4?.message}
@@ -880,7 +705,6 @@ const PersonalDetailsRegistration = ({
                         {...field}
                         value={field.value === "0" ? "" : field.value ?? ""}
                         label="5 to 12 years"
-                        placeholder="5 to 12 years"
                         type="number"
                         error={!!errors.children_5_12}
                         helperText={errors.children_5_12?.message}
@@ -906,7 +730,6 @@ const PersonalDetailsRegistration = ({
                         {...field}
                         value={field.value === "0" ? "" : field.value ?? ""}
                         label="13 to 18 years"
-                        placeholder="13 to 18 years"
                         type="number"
                         error={!!errors.children_13_18}
                         helperText={errors.children_13_18?.message}
@@ -932,7 +755,6 @@ const PersonalDetailsRegistration = ({
                         {...field}
                         value={field.value === "0" ? "" : field.value ?? ""}
                         label="+ 18 years"
-                        placeholder="+ 18 years"
                         type="number"
                         error={!!errors.children_above_18}
                         helperText={errors.children_above_18?.message}

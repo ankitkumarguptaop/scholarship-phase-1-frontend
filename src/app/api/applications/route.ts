@@ -1,3 +1,4 @@
+import { RESPONSE_CODES } from "@/common/status-code";
 import axiosInstance from "@/libs/axios";
 
 import { NextRequest } from "next/server";
@@ -15,17 +16,16 @@ export async function POST(request: NextRequest) {
 
     return new Response(
       JSON.stringify({
-        message: "Token validate successfully",
-        data: response.data,
+        message: response.data.message,
       }),
       {
-        status: 200,
+        status: response.status,
         headers: { "Content-Type": "application/json" },
       }
     );
   } catch (error: any) {
     return new Response(JSON.stringify("Internal Server Error"), {
-      status: 500,
+      status: RESPONSE_CODES.INTERNAL_SERVER_ERROR,
       headers: { "Content-Type": "application/json" },
     });
   }
