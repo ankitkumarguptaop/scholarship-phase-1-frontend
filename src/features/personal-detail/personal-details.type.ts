@@ -1,10 +1,8 @@
-export const getPersonalDetailsType= "personalDetails/Get"
-export const createPersonalDetailsType= "personalDetails/Create"
-
-
+export const getPersonalDetailsType = "personalDetails/Get";
+export const createPersonalDetailsType = "personalDetails/Create";
 
 export interface personalDataSchema {
-  id: number | null ;
+  id: number | null;
   application_id: string;
 
   document_type: string | null;

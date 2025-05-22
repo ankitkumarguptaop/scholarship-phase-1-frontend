@@ -12,6 +12,7 @@ const WelcomeLayout = ({
     <Box className={styles["welcomeBackground"]}>
       <Container>
         <Paper elevation={0} className={styles["layoutSubContainer"]}>
+          
           {children}
         </Paper>
        </Container>

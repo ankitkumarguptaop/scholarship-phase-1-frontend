@@ -26,7 +26,7 @@ export const createPersonalDetailsAction = createAsyncThunk<
   Partial<personalDataSchema>,
   personalDataSchema
 >(createPersonalDetailsType, async (payload, { rejectWithValue }) => {
-  console.log("✌️payload --->", payload);
+  console.log("payload --->", payload);
   try {
     const response = await createPersonalDetailsService(payload);
     const data = response.data;

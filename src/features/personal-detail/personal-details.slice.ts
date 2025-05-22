@@ -1,7 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
 import { createPersonalDetailsAction, getPersonalDetailsAction } from "./personal-details.action";
-import { act } from "react";
-import { personalDataSchema } from "./personal-details.type";
 import { createAppSlice } from "@/store/create-slice";
 
 const initialState :{

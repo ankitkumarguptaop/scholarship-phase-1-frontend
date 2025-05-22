@@ -5,6 +5,7 @@ import { Open_Sans } from "next/font/google";
 import {StoreProvider} from "./store-provider";
 import LocalizationWrapper from "@/libs/localization";
 import SnackBarProviderWrapper from "@/libs/snackbar-provider";
+import ThemeProviderWrapper from "@/theme/theme-provider";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -25,13 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${openSans.variable} `}>
-        <AppRouterCacheProvider>
+        <ThemeProviderWrapper>
           <SnackBarProviderWrapper>
             <StoreProvider>
               <LocalizationWrapper>{children}</LocalizationWrapper>
             </StoreProvider>
           </SnackBarProviderWrapper>
-        </AppRouterCacheProvider>
+          </ThemeProviderWrapper>
       </body>
     </html>
   );

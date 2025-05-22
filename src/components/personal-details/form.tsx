@@ -793,7 +793,6 @@ const PersonalDetailsRegistration = ({
                 </Button>
               </Box>
             </Box>
-            {/* </form> */}
           </Box>
         </Box>
       ) : (

@@ -11,6 +11,7 @@ const StartButton = ({ application_uuid }: { application_uuid: string }) => {
   const dispatch = useAppDispatch();
 
   async function handleStart() {
+
     const result = await dispatch(
       applicationStatusUpdateAction({
         application_uuid,
@@ -18,12 +19,11 @@ const StartButton = ({ application_uuid }: { application_uuid: string }) => {
       })
     );
 
-    // Optional: check if it's fulfilled
     if (applicationStatusUpdateAction.fulfilled.match(result)) {
-      redirect("/personal-details"); // ✅ Proceed on success
+      redirect("/personal-details");
     } else {
       console.error("Failed to update application status", result);
-      // Optional: Show error to user
+       
     }
   }
   return (
