@@ -84,7 +84,6 @@ const PersonalDetailsRegistration = ({
       const currentData = getValues();
 
       const isValid = personalInfoSchema.safeParse(currentData);
-      console.log("✌️isValid --->", isValid);
 
       if (isValid.success) {
         let payload: any = {

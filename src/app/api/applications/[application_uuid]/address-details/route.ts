@@ -42,7 +42,6 @@ export async function PUT(
     const body = await request.json();
 
     const data = body?.data;
-    console.log("✌️data --->", data);
     const response = await axiosInstance.put(
       `scholarship-applications/${application_uuid}/address-details`,
       {

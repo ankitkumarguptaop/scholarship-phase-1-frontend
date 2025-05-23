@@ -27,7 +27,6 @@ const AddressComponent = ({
   const dispatch = useAppDispatch();
 
   const addressDetails = useAppSelector((state) => state.addressDetails.data);
-  console.log("✌️addressDetails --->", addressDetails);
 
   useEffect(() => {
     if (applicantData?.applicant_uuid) {
@@ -64,7 +63,6 @@ const AddressComponent = ({
   useEffect(() => {
     const handler = setTimeout(() => {
       const currentData = getValues();
-      console.log("✌️currentData --->", currentData);
 
       const isValid = createAddressDetailSchema.safeParse(currentData);
 

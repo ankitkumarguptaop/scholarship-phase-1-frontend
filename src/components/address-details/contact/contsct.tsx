@@ -199,7 +199,7 @@ export default function Contact({
                   sx: { height: 48 },
                   startAdornment: (
                     <InputAdornment position="start">
-                      { feild.type === "WhatsApp" ? (
+                      {feild.type === "WhatsApp" ? (
                         <WhatsAppIcon />
                       ) : (
                         <PhoneAndroidIcon />
