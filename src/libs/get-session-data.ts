@@ -1,17 +1,16 @@
 "use server"
+
 import { getIronSession } from "iron-session";
-import { redirect } from "next/navigation";
 import { SessionData, sessionOptions } from "@/libs/irron-session";
 import { cookies } from "next/headers";
 
-async function  logout() {
+async function  GetSession() {
   const session = await getIronSession<SessionData>(
     await cookies(),
     sessionOptions
   );
-  session.destroy();
-  redirect("/login");
+return session.applicantData
 }
 
 
-export default logout
+export default GetSession

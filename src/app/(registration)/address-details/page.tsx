@@ -12,9 +12,9 @@ export default async function Address() {
   );
 
   // If session or applicantData is missing, redirect or return null
-  // if (!session || !session.applicantData) {
-  //   redirect("/login")
-  // }
+  if (!session || !session.applicantData) {
+    redirect("/login")
+  }
 
 
   return <AddressComponent applicantData={session.applicantData} />;

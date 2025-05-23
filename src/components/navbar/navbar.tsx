@@ -10,23 +10,28 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import styles from "./navbar.module.scss";
 import logout from "@/libs/logout";
-
+import GetSession from "@/libs/get-session-data";
+import { sessionData } from "@/libs/irron-session";
 
 export default function MenuAppBar() {
-  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuth(event.target.checked);
-  };
+  const [data, setData] = React.useState<sessionData | null>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = async () => {
-    logout()
+    logout();
   };
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const data = await GetSession();
+      console.log(data);
+      setData(data);
+    };
+    fetchData();
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -35,43 +40,39 @@ export default function MenuAppBar() {
           <Typography className={styles["heading"]} sx={{ flexGrow: 1 }}>
             Online scholarship form
           </Typography>
-          {auth && (
-            <Box className={styles["profile"]}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Typography
-                sx={{ flexGrow: 1 }}
-                className={styles["profileName"]}
-              >
-                Kevin Andrade
-              </Typography>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Menu>
-            </Box>
-          )}
+
+          <Box className={styles["profile"]}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Typography sx={{ flexGrow: 1 }} className={styles["profileName"]}>
+              {data?.applicant.name} {data?.applicant.last_name}
+            </Typography>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Logout</MenuItem>
+            </Menu>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>

@@ -37,7 +37,7 @@ export default async function WelcomePage() {
       <Box className={styles.welcomeContent} gap={4}>
         <Box className={styles.welcomeTextContainer} gap={2}>
           <Typography className={styles.welcomeTitle}>
-            ¡Hi, John Doe!
+            ¡Hi, {session.applicantData.applicant.name} {session.applicantData.applicant.last_name}!
           </Typography>
           <Typography className={styles.welcomeSubtitle}>
             Welcome to the online scholarship application form

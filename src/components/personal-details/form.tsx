@@ -32,6 +32,7 @@ import Loading from "@/app/(registration)/personal-details/loading";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { personalInfoSchema } from "./schema";
 import { DocumentType, FinancialDependency, MaritalStatus } from "./enums";
+import { redirect } from "next/navigation";
 
 type PersonalInfoFormData = z.infer<typeof personalInfoSchema>;
 
@@ -113,6 +114,7 @@ const PersonalDetailsRegistration = ({
   const onSubmit = (data: PersonalInfoFormData) => {
     const alldata: any = { ...data, application_id: applicantData?.uuid };
     dispatch(createPersonalDetailsAction(alldata));
+    redirect("/address-details")
   };
 
   const isLoading = useAppSelector(
@@ -145,7 +147,6 @@ const PersonalDetailsRegistration = ({
               </Typography>
             </Box>
 
-            {/* <form onSubmit={handleSubmit(onSubmit)}> */}
             <Box className={styles.basicDataContainer}>
               <Typography
                 sx={{

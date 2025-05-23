@@ -4,7 +4,6 @@ import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { SessionData, sessionOptions } from "@/libs/irron-session";
 import { RESPONSE_CODES } from "@/common/status-code";
-// import { enqueueSnackbar } from "notistack";
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +13,6 @@ export async function POST(request: NextRequest) {
       access_token: body.token,
     });
 
-    // console.log(response.status)
     if (response.status === 200) {
       const session = await getIronSession<SessionData>(
         await cookies(),

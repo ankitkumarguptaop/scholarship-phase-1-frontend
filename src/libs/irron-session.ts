@@ -14,12 +14,15 @@ export const sessionOptions: SessionOptions = {
 export type sessionData = {
   applicant_uuid: string;
   advisor_uuid: string;
-  email: string;
-  token: string;
   uuid: string;
   id: number;
   updated_at: string; 
-  status: ScholarshipApplicationStatus
+  status: ScholarshipApplicationStatus;
+  applicant: {
+    name: string;
+    last_name: string;
+    email: string;
+  }
 };
 
 export interface SessionData {

@@ -1,19 +1,22 @@
 import { RESPONSE_CODES } from "@/common/status-code";
 import axiosInstance from "@/libs/axios";
+
 import { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: { application_uuid: string } }) {
+export async function PUT(request: NextRequest) {
   try {
-    const { application_uuid } = await params;
-
-    const response = await axiosInstance.get(
-      `scholarships/applications/${application_uuid}/personal-details`
+    const body = await request.json();
+    const data = body.data;
+    const response = await axiosInstance.put(
+      "scholarships/applications/personal-details",
+      {
+        ...data,
+      }
     );
 
     return new Response(
       JSON.stringify({
-        message: "Personal details fetched successfully",
-        data: response.data,
+        message: response.data.message,
       }),
       {
         status: response.status,
@@ -21,10 +24,12 @@ export async function GET(request: NextRequest, { params }: { params: { applicat
       }
     );
   } catch (error: any) {
-    console.error("Error fetching personal details:", error);
     return new Response(JSON.stringify("Internal Server Error"), {
       status: RESPONSE_CODES.INTERNAL_SERVER_ERROR,
       headers: { "Content-Type": "application/json" },
     });
   }
 }
+
+
+

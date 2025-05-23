@@ -6,10 +6,12 @@ import {
 } from "@reduxjs/toolkit";
 import applicationReducer from "../features/application/application.slice";
 import personaldetailsReducer from "../features/personal-detail/personal-details.slice";
+import addressDetailsReducer from "../features/address-detail/address-details.slice";
 
 const rootReducer = combineSlices({
   application: applicationReducer,
   personalDetails: personaldetailsReducer,
+  addressDetails: addressDetailsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
