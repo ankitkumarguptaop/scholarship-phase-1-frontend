@@ -6,7 +6,6 @@ export const sessionOptions: SessionOptions = {
   password: process.env.IRON_SESSION_PASSWORD as string,
   cookieName: "scholarship_session",
   cookieOptions: {
-    secure: process.env.NODE_ENV === "production",
     maxAge: 60*30, // 30 mints 
   },
 };

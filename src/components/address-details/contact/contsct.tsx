@@ -1,22 +1,61 @@
 "use client";
-import { DocumentType, MaritalStatus } from "@/components/personal-details/enums";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Box,
+  Button,
   FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
+  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useFieldArray } from "react-hook-form";
 import styles from "./contact.module.scss";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import { sessionData } from "@/libs/irron-session";
+import CustomModal from "@/components/email-delete-modal/modal";
+import { PhoneNumberTypeEnum } from "@/features/address-detail/address-details.type";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import ChoosePhoneTypeModal from "@/components/choose-phone-modal/modal";
 
-export default function Contact({ control, errors } : { control: any; errors: any }) {
+export default function Contact({
+  control,
+  errors,
+  applicantData,
+  register,
+}: {
+  control: any;
+  errors: any;
+  register: any;
+  applicantData: sessionData;
+}) {
+  const {
+    fields: emailFeilds,
+    append: appendEmail,
+    remove: removeEmail,
+  } = useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormProvider)
+    name: "emails", // unique name for your Field Array
+  });
 
+  const {
+    fields: phoneFeids,
+    append: appendPhone,
+    remove: removePhone,
+  } = useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormProvider)
+    name: "phone_numbers", // unique name for your Field Array
+  });
 
+  const [open, setOpen] = React.useState(false);
+  const [openPhoneModal, setPhoneModal] = React.useState(false);
+  const [index, setDeleteIndex] = React.useState<number>();
+
+  function handleDelete() {
+    removeEmail(index);
+  }
   return (
     <Box className={styles.contactContainer}>
       <Typography
@@ -36,118 +75,172 @@ export default function Contact({ control, errors } : { control: any; errors: an
         1. Contact
       </Typography>
 
-      <Box className={styles.contactDataInputContainer}>
-        <Box sx={{ width: 454.5, height: 48 }}>
-          <Controller
-            name="document_type"
-            control={control}
-            render={({ field }) => (
-              <FormControl fullWidth error={!!errors.document_type}>
-                <InputLabel id="document-type-label">
-                  Type of document
-                </InputLabel>
-                <Select
-                  {...field}
-                  value={field.value ?? ""}
-                  labelId="document-type-label"
-                  id="document-type"
-                  className={styles.select}
-                  label="Type of document"
-                >
-                  {Object.values(DocumentType).map((type) => (
-                    <MenuItem key={type} value={type}>
-                      {type}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {errors.document_type && (
-                  <FormHelperText>
-                    {errors.document_type.message}
-                  </FormHelperText>
-                )}
-              </FormControl>
-            )}
-          />
-        </Box>
+      <Box className={styles.contactInputContainer}>
+        <Box className={styles.emailContainer}>
+          <Box className={styles.addEmails}>
+            <Typography
+              sx={{
+                fontFamily: "Open Sans",
+                fontWeight: 600,
+                fontSize: "16px",
+                lineHeight: "24px",
+                letterSpacing: "0",
+                color: "#424242",
+                verticalAlign: "middle",
+              }}
+            >
+              Email
+            </Typography>
+            <Box>
+              <Button
+                className={styles.addEmailButton}
+                startIcon={<AddIcon />}
+                onClick={() => {
+                  emailFeilds.length < 5 &&
+                    appendEmail({
+                      email: "",
+                    });
+                }}
+              >
+                ADD Email
+              </Button>
+            </Box>
+          </Box>
 
-        <Box sx={{ width: 455 }}>
-          <Controller
-            name="document_number"
-            control={control}
-            render={({ field }) => (
-              <FormControl fullWidth error={!!errors.document_number}>
-                <TextField
-                  {...field}
-                  value={field.value ?? ""}
-                  label="Document Number"
-                  error={!!errors.document_number}
-                  helperText={errors.document_number?.message}
-                  InputProps={{
-                    sx: { height: 48 },
-                  }}
-                  className={styles.select}
-                />
-              </FormControl>
-            )}
-          />
-        </Box>
-      </Box>
+          <FormControl fullWidth>
+            <TextField
+              sx={{ backgroundColor: "#FFFFFF" }}
+              type="email"
+              placeholder=" abcd@gmail.com"
+              value={applicantData?.applicant.email ?? ""}
+              InputProps={{
+                sx: { height: 48 },
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <MailOutlineIcon />
+                  </InputAdornment>
+                ),
+              }}
+              className={styles.select}
+            />
+          </FormControl>
 
-      <Box className={styles.basicDataInputContainer}>
-        <Box sx={{ width: 455 }}>
-          <Controller
-            name="marital_status"
-            control={control}
-            render={({ field }) => (
-              <FormControl fullWidth error={!!errors.marital_status}>
-                <InputLabel id="marital-status-label">
-                  Marital status
-                </InputLabel>
-                <Select
-                  {...field}
-                  value={field.value ?? ""}
-                  labelId="marital-status-label"
-                  id="marital-status"
-                  className={styles.select}
-                  label="Marital status"
-                >
-                  {Object.values(MaritalStatus).map((status) => (
-                    <MenuItem key={status} value={status}>
-                      {status}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {errors.marital_status && (
-                  <FormHelperText>
-                    {errors.marital_status.message}
-                  </FormHelperText>
-                )}
-              </FormControl>
-            )}
-          />
-        </Box>
-
-        <Box sx={{ width: 455 }}>
-          <Controller
-            name="profession"
-            control={control}
-            render={({ field }) => (
+          {emailFeilds.map((feild, index) => {
+            console.log("✌️feild --->", feild);
+            return (
               <TextField
-                {...field}
-                value={field.value ?? ""}
-                label="Profession"
-                error={!!errors.profession}
-                helperText={errors.profession?.message}
+                {...register(`emails.${index}.email`)}
+                key={feild.id}
+                placeholder=" abcd@gmail.com"
+                error={!!errors.document_number}
+                helperText={errors.document_number?.message}
                 InputProps={{
                   sx: { height: 48 },
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <MailOutlineIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Button
+                        sx={{ color: "black", borderLeft: "1px solid #E0E0E0" }}
+                        onClick={() => {
+                          setOpen(true);
+                          setDeleteIndex(index);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    </InputAdornment>
+                  ),
                 }}
                 className={styles.select}
-                fullWidth
               />
-            )}
-          />
+            );
+          })}
+        </Box>
+
+        <Box className={styles.phoneContainer}>
+          <Box className={styles.addPhones}>
+            <Typography
+              sx={{
+                fontFamily: "Open Sans",
+                fontWeight: 600,
+                fontSize: "16px",
+                lineHeight: "24px",
+                letterSpacing: "0",
+                color: "#424242",
+                verticalAlign: "middle",
+              }}
+            >
+              Phone number
+            </Typography>
+            <Box>
+              <Button
+                className={styles.addPhoneButton}
+                startIcon={<AddIcon />}
+                onClick={() => {
+                  setPhoneModal(true);
+                }}
+              >
+                ADD PHONE NUMBER
+              </Button>
+            </Box>
+          </Box>
+
+          {phoneFeids.map((feild, index) => {
+            return (
+              <TextField
+                {...register(`phone_numbers.${index}.number`)}
+                key={feild.id}
+                placeholder={""}
+                InputProps={{
+                  sx: { height: 48 },
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      { feild.type === "WhatsApp" ? (
+                        <WhatsAppIcon />
+                      ) : (
+                        <PhoneAndroidIcon />
+                      )}
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Button
+                        sx={{ color: "black", borderLeft: "1px solid #E0E0E0" }}
+                        onClick={() => {
+                          removePhone(index);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    </InputAdornment>
+                  ),
+                }}
+                className={styles.select}
+              />
+            );
+          })}
         </Box>
       </Box>
+
+      <CustomModal
+        open={open}
+        setOpen={setOpen}
+        title="Delete email"
+        description="Are you sure you want to Remove Email Address?"
+        submit={handleDelete}
+      />
+
+      <ChoosePhoneTypeModal
+        setPhoneModal={setPhoneModal}
+        openPhoneModal={openPhoneModal}
+        title={"Add Number"}
+        appendPhone={appendPhone}
+        phoneFeids={phoneFeids}
+      />
     </Box>
   );
 }

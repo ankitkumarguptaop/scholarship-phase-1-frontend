@@ -5,13 +5,19 @@ export const HousingConditionsEnum = z.enum(['Own', 'Rented', 'Family']);
 export const PhoneNumberTypeEnum = z.enum(['WhatsApp', 'Phone']);
 
 const PhoneNumberSchema = z.object({
-  number: z.number().max(99999999999999999999).optional(),
+  number: z.string().max(20).optional(),
   country_code: z.string().max(10).optional(),
   type: PhoneNumberTypeEnum.optional(),
 });
 
+
+const EmailSchmema = z.object({
+  email: z.string().email().max(50).optional(),
+});
+
+
 export const createAddressDetailSchema = z.object({
-  emails: z.array(z.string().email().max(50)).optional(),
+  emails: z.array(EmailSchmema).max(5).optional(),
   phone_numbers: z.array(PhoneNumberSchema).optional(),
   type_of_housing: TypeOfHousingEnum.optional(),
   housing_condition: HousingConditionsEnum.optional(),

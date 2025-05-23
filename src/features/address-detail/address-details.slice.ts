@@ -27,7 +27,7 @@ export const addressdetailsSlice = createAppSlice({
         state.getLoading = true;
       })
       .addCase(getAddressDetailsAction.fulfilled, (state: any ,action:any) => {
-        state.data=action.payload.data
+        state.data=action.payload.data.content
         state.getLoading = false;
       })
       .addCase(getAddressDetailsAction.rejected, (state: any, action: any) => {

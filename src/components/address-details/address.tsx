@@ -1,6 +1,6 @@
 "use client";
 import { sessionData } from "@/libs/irron-session";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect } from "react";
 import styles from "./address.module.scss";
 import RegistrationStepper from "../stepper/stepper";
@@ -17,6 +17,7 @@ import {
   getAddressDetailsAction,
 } from "@/features/address-detail/address-details.action";
 import Residence from "./residence/residence";
+import { redirect } from "next/navigation";
 
 const AddressComponent = ({
   applicantData,
@@ -26,6 +27,7 @@ const AddressComponent = ({
   const dispatch = useAppDispatch();
 
   const addressDetails = useAppSelector((state) => state.addressDetails.data);
+  console.log("✌️addressDetails --->", addressDetails);
 
   useEffect(() => {
     if (applicantData?.applicant_uuid) {
@@ -39,13 +41,14 @@ const AddressComponent = ({
     setValue,
     reset,
     getValues,
+    register,
     formState: { errors },
     watch,
   } = useForm<CreateAddressDetailValidation>({
     resolver: zodResolver(createAddressDetailSchema),
-    defaultValues: addressDetails
+    defaultValues: addressDetails?.content
       ? {
-          ...addressDetails,
+          ...addressDetails?.content,
         }
       : undefined,
   });
@@ -61,9 +64,9 @@ const AddressComponent = ({
   useEffect(() => {
     const handler = setTimeout(() => {
       const currentData = getValues();
+      console.log("✌️currentData --->", currentData);
 
       const isValid = createAddressDetailSchema.safeParse(currentData);
-      console.log("✌️isValid --->", isValid);
 
       if (isValid.success) {
         let payload: any = {
@@ -106,8 +109,35 @@ const AddressComponent = ({
             Addresses
           </Typography>
         </Box>
-          <Contact control={control} errors={errors} />
-          <Residence control={control} errors={errors} watch={watch} setValue={setValue}/>
+        <Contact
+          register={register}
+          applicantData={applicantData}
+          control={control}
+          errors={errors}
+        />
+        <Residence
+          control={control}
+          errors={errors}
+          watch={watch}
+          setValue={setValue}
+        />
+        <Box className={styles.stepperController}>
+          <Button className={styles.backButton} onClick={()=>redirect("/personal-details")} type="button">
+            BACK
+          </Button>
+          <Box className={styles.stepperActions}>
+            <Button className={styles.cancelButton} type="button">
+              CANCEL
+            </Button>
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              className={styles.continueButton}
+              type="submit"
+            >
+              CONTINUE
+            </Button>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

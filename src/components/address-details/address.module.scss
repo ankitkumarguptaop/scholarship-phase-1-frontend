@@ -19,6 +19,44 @@
 }
 
 
-.addressDetailsTitle{
-  
+
+.stepperActions {
+  display: flex;
+  justify-content: flex-end;
+  width: 856px;
+  height: 36px;
+  gap: 8px;
+}
+
+
+.stepperController {
+  margin-top:97px ;
+ display: flex;
+  width: 925px;
+  height: 52px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-top-width: 1px;
+}
+
+.backButton {
+  color: #424242 !important;
+  display: flex;
+  width: 69px;
+  height: 36px;
+  gap: 16px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-radius: 4px;
+}
+
+.cancelButton {
+  display: flex;
+   color: #424242 !important;
+  width: 86px;
+  height: 36px;
+  gap: 16px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-radius: 4px;
 }

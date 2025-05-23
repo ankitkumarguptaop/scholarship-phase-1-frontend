@@ -42,11 +42,11 @@ export default function Residence({
     if (selectedCountry) {
       const country = Country.getCountryByCode(selectedCountry);
       setStates(State.getStatesOfCountry(country?.isoCode));
+      setCities([]);
     } else {
       setStates([]);
+      setCities([]);
     }
-    setValue("state_of_residence", "");
-    setValue("city_of_residence", "");
   }, [selectedCountry]);
 
   useEffect(() => {
@@ -55,11 +55,11 @@ export default function Residence({
     } else {
       setCities([]);
     }
-    setValue("city_of_residence", "");
   }, [selectedState]);
 
+
   return (
-    <Box className={styles.contactContainer}>
+    <Box className={styles.residenceContainer}>
       <Typography
         sx={{
           fontFamily: "Open Sans",
@@ -73,7 +73,7 @@ export default function Residence({
         2. Residence
       </Typography>
 
-      <Box className={styles.basicDataInputContainer}>
+      <Box className={styles.housingInputContainer}>
         <Box sx={{ width: 455 }}>
           <Controller
             name="type_of_housing"
@@ -141,15 +141,23 @@ export default function Residence({
         </Box>
       </Box>
 
-      <Box className={styles.contactDataInputContainer}>
+      <Box className={styles.countaryStateInputContainer}>
         <Box sx={{ width: 455 }}>
           <Controller
             name="country_of_residence"
             control={control}
             render={({ field }) => (
               <FormControl fullWidth error={!!errors.country_of_residence}>
-                <InputLabel>Country</InputLabel>
-                <Select {...field} value={field.value ?? ""} label="Country">
+                <InputLabel id="country_of_residence">
+                  Country of residence
+                </InputLabel>
+                <Select
+                  labelId="country_of_residence"
+                  label="Country of residence"
+                  {...field}
+                  value={field.value ?? ""}
+                  className={styles.select}
+                >
                   {countries.map((country) => (
                     <MenuItem key={country.isoCode} value={country.isoCode}>
                       {country.name}
@@ -170,8 +178,16 @@ export default function Residence({
             control={control}
             render={({ field }) => (
               <FormControl fullWidth error={!!errors.state_of_residence}>
-                <InputLabel>State</InputLabel>
-                <Select {...field} value={field.value ?? ""} label="State">
+                <InputLabel id="state_of_residence">
+                  State of residence
+                </InputLabel>
+                <Select
+                  {...field}
+                  className={styles.select}
+                  value={field.value ?? ""}
+                  labelId="state_of_residence"
+                  label="State of residence"
+                >
                   {states.map((state) => (
                     <MenuItem key={state.isoCode} value={state.isoCode}>
                       {state.name}
@@ -185,15 +201,25 @@ export default function Residence({
             )}
           />
         </Box>
+      </Box>
 
+      <Box className={styles.cityZipInputContainer}>
         <Box sx={{ width: 455 }}>
           <Controller
             name="city_of_residence"
             control={control}
             render={({ field }) => (
               <FormControl fullWidth error={!!errors.city_of_residence}>
-                <InputLabel>City</InputLabel>
-                <Select {...field} value={field.value ?? ""} label="City">
+                <InputLabel id="city_of_residence">
+                  City of residence
+                </InputLabel>
+                <Select
+                  {...field}
+                  className={styles.select}
+                  value={field.value ?? ""}
+                  label="City of residence"
+                  labelId="city_of_residence"
+                >
                   {cities.map((city) => (
                     <MenuItem key={city.name} value={city.name}>
                       {city.name}
@@ -207,11 +233,28 @@ export default function Residence({
             )}
           />
         </Box>
-      </Box>
 
-      
-     
-     
+        <Box sx={{ width: 455 }}>
+          <Controller
+            name="zip_code"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                value={field.value ?? ""}
+                label="Zip code"
+                error={!!errors.zip_code}
+                helperText={errors.zip_code?.message}
+                InputProps={{
+                  sx: { height: 48 },
+                }}
+                className={styles.select}
+                fullWidth
+              />
+            )}
+          />
+        </Box>
+      </Box>
     </Box>
   );
 }

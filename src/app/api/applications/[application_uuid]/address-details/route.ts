@@ -13,7 +13,7 @@ export async function GET(
     const response = await axiosInstance.get(
       `scholarship-applications/${application_uuid}/address-details`
     );
-console.log("response" , response);
+    console.log("--?response", response.data);
     return new Response(
       JSON.stringify({
         message: "Address details fetched successfully",
@@ -40,7 +40,9 @@ export async function PUT(
   try {
     const { application_uuid } = await params;
     const body = await request.json();
-    const data = body.data;
+
+    const data = body?.data;
+    console.log("✌️data --->", data);
     const response = await axiosInstance.put(
       `scholarship-applications/${application_uuid}/address-details`,
       {
